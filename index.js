@@ -15,6 +15,9 @@ app.use(express.json())
 
 // console.log(process.env.USER_DB)
 
+console.log(
+  process.env.USER_DB)
+
 
 
 const uri = `mongodb+srv://${process.env.USER_DB}:${process.env.USER_Pass}@cluster0.bnqcs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
