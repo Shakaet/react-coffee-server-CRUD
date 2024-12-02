@@ -37,7 +37,7 @@ async function run() {
     const haiku = database.collection("coffee");
     const userCollection= client.db("coffeeDB").collection("users")
     // Connect the client to the server	(optional starting in v4.7)
-    await client.connect();
+    // await client.connect();
 
 
     app.get("/user/:id",async(req,res)=>{
@@ -78,7 +78,18 @@ async function run() {
 
     app.get("/user",async(req,res)=>{
 
-        const cursor = haiku.find();
+      let { search}= req.query
+
+      let option = {}; // Default to an empty object
+
+if (search) {
+  option = { name: { $regex: search, $options: "i" } }; // Add filter conditionally
+}
+
+
+       
+
+        const cursor = haiku.find(option);
 
         let result= await cursor.toArray()
         res.send(result)
@@ -160,8 +171,8 @@ async function run() {
 
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+    // await client.db("admin").command({ ping: 1 });
+    // console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
